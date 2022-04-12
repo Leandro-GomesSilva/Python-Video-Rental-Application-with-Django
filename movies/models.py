@@ -11,11 +11,22 @@ class Genre(models.Model):
         return self.name
 
 
+class Actor(models.Model):
+    name = models.CharField(max_length=255)
+    date_of_birth = models.DateField
+    place_of_birth = models.CharField(max_length=255)
+    wikipedia_article = models.CharField(max_length=255)
+
+
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     release_year = models.IntegerField()
+    length = models.IntegerField()
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    synopsis = models.CharField(max_length=255)
+    director = models.CharField(max_length=255)
+    main_cast = models.ManyToManyField(Actor)
     number_in_stock = models.IntegerField()
     daily_rate = models.FloatField()
-    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
-    # Aqui Mosh recomenda no Vídeo 7 a usar algo que esteja aware das Time Zones #
+    # A common recommendation is to implement it in a way so that it is 'aware' of timezones
     date_created = models.DateTimeField(default=timezone.now)
